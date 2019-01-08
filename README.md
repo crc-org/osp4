@@ -1,4 +1,4 @@
-# Run locally Openshift-4
+# Run OpenShift 4.0 locally
 
 Note: Experimental for Mac and Linux
 
