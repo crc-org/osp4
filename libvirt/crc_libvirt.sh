@@ -259,7 +259,7 @@ EOF
 </domain>
 EOF
     sudo virsh define ./test1-worker-0-98nsr.xml
-    echo "Cluster created successfully use './minishift.sh start' to start it"
+    echo "Cluster created successfully use '$0 start' to start it"
 }
 
 

@@ -20,7 +20,7 @@ prerequisites()
     if pgrep -x "minishift" > /dev/null
     then
         echo "Minishift is running which create issue with coredns"
-        echo "Stop the minishift or delete"
+        echo "Stop or delete the minishift instance"
         exit 1
     fi
 
