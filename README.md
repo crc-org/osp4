@@ -47,3 +47,9 @@ $ cat /etc/hosts
 127.0.0.1 prometheus-k8s-openshift-monitoring.apps.test1.tt.testing
 ```
 
+## Community
+
+Contributions, questions, and comments are all welcomed and encouraged!
+
+- You can talk to the community at #codeready channel on [Freenode IRC](https://freenode.net/)
+
