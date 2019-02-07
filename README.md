@@ -2,21 +2,44 @@
 
 Note: Experimental for Mac and Linux
 
-Mac
-===
+## macOS
 
-- Prerequisite: Virtualbox (>= 5.2.x)
+### Prerequisites 
+* Virtualbox (>= 5.2.x)
+* [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.0-0.154.0/macosx/)
 
-Linux
-=====
+### Steps
+* set up environment:
+```
+$ export KUBECONFIG=/path/to/minishit_virtualbox_0.9.1/
+$ chmod +x ./minishift_virtualbox.sh
+```
+* create and start cluster:
+```
+$ ./minishift_virtualbox.sh create
+$ ./minishift_virtualbox.sh start
+```
+The script is using a sudo command you'll be prompted for your root password.
 
+> NOTE: the script run some verification that port 53 is not already in used, double check is the port is not in used with `sudo lsof -i -n -P | grep TCP`
+
+> NOTE: to verify coredns is running, look at log `sudo cat /tmp/coredns.log`
+
+### How to expose the webconsole
+* You need to wait till the cluster is in healthy state, check if all pods are running:
+```
+$ oc get pods --all-namespaces
+```
+wait untill `CrashLoopBackOff` pods are up restarted.
+
+## Linux
+### Prerequisites 
 - Currently script prerequisite part only support RHEL/Fedora/CentOS.
 - If you using a different distribution then you need to edit the script around how to install the libvirt packages and make the config changes.
 
+### Steps
 
-How to expose the webconsole
-----------------------------
-
+### How to expose the webconsole
 - You need to wait till the cluster is in healthy state, check if all pods are running `oc get pods --all-namespaces` after exporting the kubeconfig file.
 - https://github.com/openshift/installer/issues/411#issuecomment-445165262 
 
