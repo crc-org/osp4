@@ -56,11 +56,18 @@ EOF
     fi
 
     # Set up NetworkManager DNS overlay
-    grep -q 'dns=dnsmasq' /etc/NetworkManager/NetworkManager.conf
-    if [ $? -ne 0 ]
-    then
-        sudo sed -i.bak '/\[main\]/a dns=dnsmasq' /etc/NetworkManager/NetworkManager.conf
-        echo server=/tt.testing/192.168.126.1 | sudo tee /etc/NetworkManager/dnsmasq.d/openshift.conf
+    dnsconf=/etc/NetworkManager/conf.d/crc-libvirt-dnsmasq.conf
+    local dnschanged=""
+    if ! [ -f "${dnsconf}" ]; then
+        echo 'dns=dnsmasq' | sudo tee "${dnsconf}"
+        dnschanged=1
+    fi
+    dnsmasqconf=/etc/NetworkManager/dnsmasq.d/openshift.conf
+    if ! [ -f "${dnsmasqconf}" ]; then
+        echo server=/tt.testing/192.168.126.1 | sudo tee "${dnsmasqconf}"
+        dnschanged=1
+    fi
+    if [ -n "$dnschanged" ]; then
         sudo systemctl restart NetworkManager
     fi
 
