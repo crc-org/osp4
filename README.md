@@ -11,13 +11,13 @@ Note: Experimental for Mac and Linux
 ### Steps
 * set up environment:
 ```
-$ export KUBECONFIG=/path/to/minishit_virtualbox_0.9.1/
-$ chmod +x ./minishift_virtualbox.sh
+$ export KUBECONFIG=/path/to/crc_virtualbox_0.9.1/
+$ chmod +x ./crc_virtualbox.sh
 ```
 * create and start cluster:
 ```
-$ ./minishift_virtualbox.sh create
-$ ./minishift_virtualbox.sh start
+$ ./crc_virtualbox.sh create
+$ ./crc_virtualbox.sh start
 ```
 The script is using a sudo command you'll be prompted for your root password.
 
