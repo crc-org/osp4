@@ -65,7 +65,7 @@ $ sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/kubectl
 Note: If you omit the above, you have to start `kubectl` using `sudo`. Next, port-forward the `router-default` service:
 
 ```
-$ kubectl -n openshift-ingress port-forward svc/router-default 443
+$ kubectl -n openshift-ingress port-forward svc/router-internal-default 443
 ```
 Leave this running in the terminal.
 
