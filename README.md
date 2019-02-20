@@ -43,6 +43,19 @@ wait untill `CrashLoopBackOff` pods are up restarted.
 - You need to wait till the cluster is in healthy state, check if all pods are running `oc get pods --all-namespaces` after exporting the kubeconfig file.
 - https://github.com/openshift/installer/issues/411#issuecomment-445165262 
 
+Get the routes and add bind them to 127.0.0.1 in /etc/hosts:
+
+```
+$ oc get --all-namespaces routes
+NAMESPACE           NAME      HOST/PORT                                         PATH      SERVICES   PORT      TERMINATION          WILDCARD
+openshift-console   console   console-openshift-console.apps.test1.tt.testing             console    https     reencrypt/Redirect   None
+```
+Use `console-openshift-console.apps.test1.tt.testing` from the `get routes` above in the `hosts` file below.
+
+```
+$ echo "127.0.0.1 console-openshift-console.apps.test1.tt.testing" | sudo tee -a /etc/hosts
+```
+
 Allow kubectl to bind to privileged ports:
 
 ```
@@ -54,21 +67,14 @@ Note: If you omit the above, you have to start `kubectl` using `sudo`. Next, por
 ```
 $ kubectl -n openshift-ingress port-forward svc/router-default 443
 ```
+Leave this running in the terminal.
 
-Get the routes and add bind them to 127.0.0.1 in /etc/hosts:
+## Running it
+In the browser use `https://console-openshift-console.apps.test1.tt.testing`
 
-```
-$ kubectl get routes --all-namespaces
-NAMESPACE              NAME             HOST/PORT                                                   PATH   SERVICES         PORT    TERMINATION          WILDCARD
-openshift-console      console          console-openshift-console.apps.test1.tt.testing                    console          https   reencrypt/Redirect   None
-openshift-monitoring   grafana          grafana-openshift-monitoring.apps.test1.tt.testing                 grafana          https   reencrypt            None
-openshift-monitoring   prometheus-k8s   prometheus-k8s-openshift-monitoring.apps.test1.tt.testing          prometheus-k8s   web     reencrypt            None
-
-$ cat /etc/hosts
-127.0.0.1 console-openshift-console.apps.test1.tt.testing
-127.0.0.1 grafana-openshift-monitoring.apps.test1.tt.testing
-127.0.0.1 prometheus-k8s-openshift-monitoring.apps.test1.tt.testing
-```
+To login use:
+- admin: kubeadmin
+- password: [look in kubeadmin-password]
 
 ## Community
 
