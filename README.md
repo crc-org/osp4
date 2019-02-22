@@ -65,7 +65,7 @@ $ sudo oc --config kubeconfig -n openshift-ingress port-forward svc/router-inter
 ```
 Leave this running in the terminal.
 
-## Running it
+### Running it
 In the browser use `https://console-openshift-console.apps.test1.tt.testing`
 
 To login use:
@@ -78,7 +78,11 @@ To login use:
 - Currently script prerequisite part only support RHEL/Fedora/CentOS.
 - If you using a different distribution then you need to edit the script around how to install the libvirt packages and make the config changes.
 
-### Steps
+### Steps  
+Run these commands from the installed/extracted directory:
+- `export KUBECONFIG=$PWD/kubeconfig`
+- `./crc_libvirt.sh create`
+- `./crc_libvirt.sh start`
 
 ### How to expose the webconsole
 - You need to wait till the cluster is in healthy state, check if all pods are running `oc get pods --all-namespaces` after exporting the kubeconfig file.
@@ -110,7 +114,7 @@ $ kubectl -n openshift-ingress port-forward svc/router-internal-default 443
 ```
 Leave this running in the terminal.
 
-## Running it
+### Running it
 In the browser use `https://console-openshift-console.apps.test1.tt.testing`
 
 To login use:
