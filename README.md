@@ -77,6 +77,9 @@ To login use:
 ### Prerequisites 
 - Currently script prerequisite part only support RHEL/Fedora/CentOS.
 - If you using a different distribution then you need to edit the script around how to install the libvirt packages and make the config changes.
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.0-0.179.0/linux/)
+
 
 ### Steps
 
@@ -100,7 +103,7 @@ $ echo "127.0.0.1 console-openshift-console.apps.test1.tt.testing" | sudo tee -a
 Allow kubectl to bind to privileged ports:
 
 ```
-$ sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/kubectl
+$ sudo setcap CAP_NET_BIND_SERVICE=+eip $(which kubectl)
 ```
 
 Note: If you omit the above, you have to start `kubectl` using `sudo`. Next, port-forward the `router-default` service:
