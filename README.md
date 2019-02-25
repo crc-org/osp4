@@ -80,7 +80,7 @@ To login use:
 
 ### Steps  
 Run these commands from the installed/extracted directory:
-- `export KUBECONFIG=$PWD/kubeconfig`
+- `export KUBECONFIG=[path-to-config]/kubeconfig`
 - `./crc_libvirt.sh create`
 - `./crc_libvirt.sh start`
 
