@@ -1,3 +1,6 @@
+### *This repository is only a proof of concepts of CodeReady Containers.* 
+### *The actual implementation will be at https://github.com/code-ready/crc*
+
 # Run OpenShift 4.0 locally
 
 Note: Experimental for Mac and Linux
