@@ -11,7 +11,7 @@ Note: Experimental for Mac and Linux
 ### Steps
 * set up environment:
 ```
-$ export KUBECONFIG=/path/to/minishit_virtualbox_0.9.1/
+$ export KUBECONFIG=/path/to/minishift_virtualbox_0.9.1/
 $ chmod +x ./minishift_virtualbox.sh
 ```
 * create and start cluster:
