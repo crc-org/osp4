@@ -9,7 +9,7 @@ Note: Experimental for Mac and Linux
 
 ### Prerequisites 
 * Virtualbox (>= 5.2.x)
-* [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.0-0.177.0/macosx/)
+* [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.0-0.185.0/macosx/)
 
 ### Steps
 * set up environment:
@@ -43,7 +43,18 @@ wait untill `CrashLoopBackOff` pods are up restarted.
 $ sudo chown root:wheel $(brew --prefix)/opt/hyperkit/bin/hyperkit
 $ sudo chmod u+s $(brew --prefix)/opt/hyperkit/bin/hyperkit
 ```
-* [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.0-0.177.0/macosx/)
+* [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.0-0.185.0/macosx/)
+
+### Steps
+* set up environment:
+```
+export KUBECONFIG=<TARBALL_EXTRACT_PATH>/kubeconfig
+```
+* create and start cluster
+```
+$ ./crc_hyperkit.sh create
+$ ./crc_hyperkit.sh start
+```
 
 ### How to expose the webconsole
 - Export the kubeconfig which is in the tarball `export KUBECONFIG=<TARBALL_EXTRACT_PATH>/kubeconfig`
