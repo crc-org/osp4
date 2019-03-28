@@ -3,24 +3,27 @@
 
 # Run OpenShift 4.0 locally
 
-Note: Experimental for Mac and Linux
+Note: Experimental for Mac and Linux, Tarball is shared internally (announced on aos-devel ML)
 
 ## Virtualbox on macOS
 
 ### Prerequisites 
 * Virtualbox (>= 5.2.x)
-* [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.0-0.185.0/macosx/)
+* [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.22/macosx/)
 
 ### Steps
+
+Run these commands from the tarball extracted directory:
+
 * set up environment:
 ```
-$ export KUBECONFIG=/path/to/minishift_virtualbox_0.9.1/
-$ chmod +x ./minishift_virtualbox.sh
+$ export KUBECONFIG=[path-to-config]/kubeconfig
+$ chmod +x ./crc_virtualbox.sh
 ```
 * create and start cluster:
 ```
-$ ./minishift_virtualbox.sh create
-$ ./minishift_virtualbox.sh start
+$ ./crc_virtualbox.sh create
+$ ./crc_virtualbox.sh start
 ```
 The script is using a sudo command you'll be prompted for your root password.
 
@@ -28,12 +31,6 @@ The script is using a sudo command you'll be prompted for your root password.
 
 > NOTE: to verify coredns is running, look at log `sudo cat /tmp/coredns.log`
 
-### How to expose the webconsole
-* You need to wait till the cluster is in healthy state, check if all pods are running:
-```
-$ oc get pods --all-namespaces
-```
-wait untill `CrashLoopBackOff` pods are up restarted.
 
 
 ## hyperkit on macOS
@@ -43,56 +40,26 @@ wait untill `CrashLoopBackOff` pods are up restarted.
 $ sudo chown root:wheel $(brew --prefix)/opt/hyperkit/bin/hyperkit
 $ sudo chmod u+s $(brew --prefix)/opt/hyperkit/bin/hyperkit
 ```
-* [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.0-0.185.0/macosx/)
+* [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.22/macosx/)
 
 ### Steps
 * set up environment:
 ```
 export KUBECONFIG=<TARBALL_EXTRACT_PATH>/kubeconfig
 ```
+
 * create and start cluster
 ```
 $ ./crc_hyperkit.sh create
 $ ./crc_hyperkit.sh start
 ```
 
-### How to expose the webconsole
-- Export the kubeconfig which is in the tarball `export KUBECONFIG=<TARBALL_EXTRACT_PATH>/kubeconfig`
-- You need to wait till the cluster is in healthy state, check if all pods are running `oc get pods --all-namespaces` after exporting the kubeconfig file.
-- https://github.com/openshift/installer/issues/411#issuecomment-445165262 
-
-Get the routes and add bind them to 127.0.0.1 in /etc/hosts:
-
-```
-$ oc get --all-namespaces routes
-NAMESPACE           NAME      HOST/PORT                                         PATH      SERVICES   PORT      TERMINATION          WILDCARD
-openshift-console   console   console-openshift-console.apps.test1.tt.testing             console    https     reencrypt/Redirect   None
-```
-Use `console-openshift-console.apps.test1.tt.testing` from the `get routes` above in the `hosts` file below.
-
-```
-$ echo "127.0.0.1 console-openshift-console.apps.test1.tt.testing" | sudo tee -a /etc/hosts
-```
-
-```
-$ sudo oc --config kubeconfig -n openshift-ingress port-forward svc/router-internal-default 443
-```
-Leave this running in the terminal.
-
-### Running it
-In the browser use `https://console-openshift-console.apps.test1.tt.testing`
-
-To login use:
-- admin: kubeadmin
-- password: [look in kubeadmin-password]
-
-
-## Linux
+## libvirt on Linux
 ### Prerequisites 
 - Currently script prerequisite part only support RHEL/Fedora/CentOS.
 - If you using a different distribution then you need to edit the script around how to install the libvirt packages and make the config changes.
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.0-0.179.0/linux/)
+- [oc 4.0.0](https://mirror.openshift.com/pub/openshift-v3/clients/4.0.22/linux/)
 
 
 ### Steps  
@@ -101,38 +68,17 @@ Run these commands from the installed/extracted directory:
 - `./crc_libvirt.sh create`
 - `./crc_libvirt.sh start`
 
-### How to expose the webconsole
-- You need to wait till the cluster is in healthy state, check if all pods are running `oc get pods --all-namespaces` after exporting the kubeconfig file.
-- https://github.com/openshift/installer/issues/411#issuecomment-445165262 
-
-Get the routes and add bind them to 127.0.0.1 in /etc/hosts:
-
+### How to expose use webconsole
+Get the route url from the `openshift-console` namespace
 ```
-$ oc get --all-namespaces routes
-NAMESPACE           NAME      HOST/PORT                                         PATH      SERVICES   PORT      TERMINATION          WILDCARD
-openshift-console   console   console-openshift-console.apps.test1.tt.testing             console    https     reencrypt/Redirect   None
+$ oc get routes -n openshift-console
+NAME        HOST/PORT                                     PATH   SERVICES    PORT    TERMINATION          WILDCARD
+console     console-openshift-console.apps.tt.testing            console     https   reencrypt/Redirect   None
+downloads   downloads-openshift-console.apps.tt.testing          downloads   http    edge                 None
 ```
-Use `console-openshift-console.apps.test1.tt.testing` from the `get routes` above in the `hosts` file below.
-
-```
-$ echo "127.0.0.1 console-openshift-console.apps.test1.tt.testing" | sudo tee -a /etc/hosts
-```
-
-Allow kubectl to bind to privileged ports:
-
-```
-$ sudo setcap CAP_NET_BIND_SERVICE=+eip $(which kubectl)
-```
-
-Note: If you omit the above, you have to start `kubectl` using `sudo`. Next, port-forward the `router-default` service:
-
-```
-$ kubectl -n openshift-ingress port-forward svc/router-internal-default 443
-```
-Leave this running in the terminal.
 
 ### Running it
-In the browser use `https://console-openshift-console.apps.test1.tt.testing`
+In the browser use `https://console-openshift-console.apps.tt.testing`
 
 To login use:
 - admin: kubeadmin
